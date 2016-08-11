@@ -1,0 +1,111 @@
+/*----------------------------------------------------------
+    Typography
+----------------------------------------------------------*/
+
+// settings
+
+$type-fontSscaling: true;
+$type-letterSpacingMod: 0.08;
+
+//Fonts
+
+$type-font-main: OpenSans, helvetica, ariel, sans-serif;
+
+//Sizing
+
+$type-size-base: 16px;
+$type-size-lineHeight: 24px;
+$type-line-height-ratio: $type-size-lineHeight / $type-size-base;
+$type-letter-spacing-base: 26px;
+
+$type-size-modifiers : (
+    xs : 0.7,
+    sm : 0.9,
+    md : 1,
+    lg : 1.3,
+    xl : 1.6
+);
+
+//weights
+
+$type-weight-light: 300;
+$type-weight-book: 400;
+$type-weight-medium: 500;
+$type-weight-semibold: 600;
+$type-weight-bold: 700;
+$type-weight-black: 900;
+
+/*----------------------------------------------------------
+    Mixins
+----------------------------------------------------------*/
+
+// set the font, lineheight, and typesize
+@mixin set-font($fam: $type-font-main, $fsize: $type-size-base, $lineHeight: $type-size-lineHeight) {
+    font-family:$fam;
+    @include typeset($fsize, $lineHeight);
+}
+
+@mixin typeset($fontSize: inherit, $lineHeight: inherit) {
+
+	@include font-size($fontSize);
+	@include line-height($lineHeight);
+
+	@if $fontSize > $type-letter-spacing-base {
+		@include rem( letter-spacing, (($type-letterSpacingMod * $fontSize) * -0.3) );
+	}
+
+}
+
+// set the font size
+@mixin font-size($px: inherit) {
+	// if its a number then rem it
+	@if round($px) == $px {
+		@include rem(font-size, $px);
+	} @else {
+		font-size: $px;
+	}
+}
+
+// set the line height
+@mixin line-height($px: inherit) {
+	// if its a number then rem it
+	@if round($px) == $px {
+		@include rem(line-height, $px);
+	} @else {
+		line-height: $px;
+	}
+}
+
+// sets up size modifiers for a selector. This inputs the size modifier classes into the css under the parent selector.
+@mixin size-modifiers($inheritSize: $type-size-base, $inheritLineHeight: $type-size-lineHeight) {
+    @each $type-size-class, $type-size-modifier in $type-size-modifiers {
+        &.type--#{$type-size-class} {
+            @include font-size($inheritSize * $type-size-modifier);
+            @include line-height(($inheritLineHeight * -1) * $type-size-modifier)
+        }
+    }
+}
+
+@mixin inheritType {
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+}
+
+/*----------------------------------------------------------
+    Defaults
+----------------------------------------------------------*/
+
+body {
+    font:#{($type-size-base/16px)*1em}/#{$type-line-height-ratio} $type-font-main;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+::selection {
+	color: white;
+	background-color: $colour-navy;
+}

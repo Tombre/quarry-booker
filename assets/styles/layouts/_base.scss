@@ -1,0 +1,29 @@
+/*-----------------------------------------------------
+	Parent
+-----------------------------------------------------*/
+
+html {
+	background-color: #f3f3f3;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+#app {
+	overflow: hidden;
+	margin: 0 auto;
+	max-width: 375px;
+	height: 667px;
+	background-color: $colour-dark;
+	position: relative;
+	width: 100%;
+}
+
+#wrapper {
+	height: calc(100vh - 218px);
+	overflow: scroll;
+	padding: 1rem;
+	position: relative;
+	z-index: 1;
+}

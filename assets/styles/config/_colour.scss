@@ -1,0 +1,36 @@
+/*----------------------------------------------------------
+    Colour Settings
+----------------------------------------------------------*/
+
+$colour-orange : #FF5D15;
+$colour-red: #DC3737;
+$colour-lightGrey: #F1F1F1;
+$colour-mediumGrey: #b0b8b9;
+$colour-grey : #656466;
+$colour-dark  : #2C2B2F;
+$colour-black : #1d1d1d;
+$colour-light : #e7e7e7;
+$colour-lightBlue: #F0F5F9;
+$colour-blue: #4A90E2;
+$colour-darkBlue: #282835;
+$colour-navy: #344048;
+$colour-sky: #7B878E;
+$colour-navyLight: lighten($colour-navy, 10%);
+$colour-green: #39AF64;
+$colour-lightGreen: #85C248;
+$colour-lightWater: #DEE0E1;
+$colour-water: #9CABB8;
+$colour-white: #fff;
+
+
+/*----------------------------------------------------------
+    Helper
+----------------------------------------------------------*/
+
+.colour--white {
+	color: white;
+}
+
+.colour--dark {
+	color: $colour-dark;
+}

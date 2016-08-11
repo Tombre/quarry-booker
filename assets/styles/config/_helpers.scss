@@ -1,0 +1,267 @@
+/*----------------------------------------------------------
+    Helper
+----------------------------------------------------------*/
+
+/*
+    Make sure the variables are namespaced correctly
+*/
+
+$helper-padding: 24px;
+$helper-border: 1px solid $colour-lightGrey;
+$helper-sizes: none, xs, sm, md, lg, xl, xxl;
+$helper-spacer-multiplier: 1.3;
+$helper-spacer-base: 6px;
+
+/*----------------------------------------------------------
+    General Functions
+----------------------------------------------------------*/
+
+@function strip-units($number) {
+    @return $number / ($number * 0 + 1);
+}
+
+/// Returns the opposite direction of each direction in a list
+/// @author Hugo Giraudel
+/// @param {List} $directions - List of initial directions
+/// @return {List} - List of opposite directions
+@function opposite($directions) {
+    $opposite-directions: ();
+    $direction-map: (
+        'top':    'bottom',
+        'right':  'left',
+        'bottom': 'top',
+        'left':   'right',
+        'center': 'center',
+        'ltr':    'rtl',
+        'rtl':    'ltr'
+    );
+
+    @each $direction in $directions {
+        $direction: to-lower-case($direction);
+
+        @if map-has-key($direction-map, $direction) {
+            $opposite-directions: append($opposite-directions, unquote(map-get($direction-map, $direction)));
+        } @else {
+            @warn "No opposite direction can be found for `#{$direction}`. Direction omitted.";
+        }
+    }
+
+    @return $opposite-directions;
+}
+
+@mixin rem($key,$px) {
+    $base_unit : strip-units($type-size-base);
+    $rem : strip-units($px/$base_unit);
+    #{$key}: $px;
+    #{$key}: #{$rem}rem;
+}
+
+@mixin vertical-align() {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin square($size) {
+	width: $size;
+	height: $size;
+}
+
+@mixin clearfix() {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+/*----------------------------------------------------------
+    Font Awesome
+----------------------------------------------------------*/
+
+@mixin font-awesome($content, $size : 16) {
+	content: $content;
+	display: inline-block;
+	font-family: FontAwesome;
+	@include font-size($size);
+	font-smoothing: antialiased;
+	text-rendering: auto;
+}
+
+/*----------------------------------------------------------
+    General
+----------------------------------------------------------*/
+
+.hidden, .hide {
+  display: none !important;
+}
+
+.shown, .show {
+  display: block !important;
+}
+
+.shown-inline, .show-inline {
+  display: inline !important;
+}
+
+table.shown, table.show {
+  display: table !important;
+}
+
+.invisible {
+  opacity: 0;
+  position: absolute;
+  top: -99999px; left: -99999px;
+}
+
+.clearfix {
+  @include clearfix();
+}
+
+.clear {
+  clear: both;
+}
+
+.relative {
+  position: relative;
+}
+
+.text-center, .center {
+	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+/*----------------------------------------------------------
+    Borders
+----------------------------------------------------------*/
+
+/// Triangle helper mixin
+/// @param {Direction} $direction - Triangle direction, either `top`, `right`, `bottom` or `left`
+/// @param {Color} $color [currentcolor] - Triangle color
+/// @param {Length} $size [1em] - Triangle size
+@mixin triangle($direction, $color: currentcolor, $size: 1em) {
+
+	@if not index(top right bottom left, $direction) {
+		@error "Direction must be either `top`, `right`, `bottom` or `left`.";
+	}
+
+	$opposite : opposite($direction);
+
+	width: 0;
+	height: 0;
+	content: "";
+	border-#{$opposite}: ($size * 1.5) solid $color;
+
+	$perpendicular-borders: $size solid transparent;
+
+	@if $direction == top or $direction == bottom {
+		border-left:   $perpendicular-borders;
+		border-right:  $perpendicular-borders;
+	} @else if $direction == right or $direction == left {
+		border-bottom: $perpendicular-borders;
+		border-top:    $perpendicular-borders;
+	}
+
+}
+
+.bordered-top {
+	border-top: $helper-border;
+}
+
+.bordered-bottom {
+	border-bottom: $helper-border;
+}
+
+.bordered-right {
+	border-right: $helper-border;
+}
+
+.bordered-left {
+	border-left: $helper-border;
+}
+
+.bordered-horiz {
+	border-left: $helper-border;
+	border-right: $helper-border;
+}
+
+.bordered-vert {
+	border-top: $helper-border;
+	border-bottom: $helper-border;
+}
+
+
+/*----------------------------------------------------------
+    Padding
+----------------------------------------------------------*/
+
+@for $i from 1 through length($helper-sizes) {
+
+	$size: nth($helper-sizes, $i);
+	$value: $helper-spacer-base * ($i * $helper-spacer-multiplier);
+
+  	.padding-horiz-#{$size} {
+		padding-left: $value;
+		padding-right: $value;
+	}
+	.padding-vert-#{$size} {
+		padding-top: $value;
+		padding-bottom: $value;
+	}
+
+	.padding-top-#{$size} { padding-top: $value; }
+	.padding-bottom-#{$size} { padding-bottom: $value; }
+	.padding-left-#{$size} { padding-left: $value; }
+	.padding-right-#{$size} { padding-right: $value; }
+
+}
+
+/*----------------------------------------------------------
+    margin
+----------------------------------------------------------*/
+
+@for $i from 1 through length($helper-sizes) {
+
+	$size: nth($helper-sizes, $i);
+	$value: $helper-spacer-base * (($i - 1) * $helper-spacer-multiplier);
+
+  	.margin-horiz-#{$size} {
+		margin-left: $value;
+		margin-right: $value;
+	}
+	.margin-vert-#{$size} {
+		margin-top: $value;
+		margin-bottom: $value;
+	}
+
+	.margin-top-#{$size} { margin-top: $value; }
+	.margin-bottom-#{$size} { margin-bottom: $value; }
+	.margin-left-#{$size} { margin-left: $value; }
+	.margin-right-#{$size} { margin-right: $value; }
+
+}
+
+/*----------------------------------------------------------
+    Width
+----------------------------------------------------------*/
+
+.full-width {
+	width: 100%;
+}
+
+/*----------------------------------------------------------
+    Opacity
+----------------------------------------------------------*/
+
+@for $i from 1 through 9 {
+	.opaque--#{$i} {
+		opacity: $i * 0.1;
+	}
+}

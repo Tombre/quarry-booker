@@ -1,0 +1,25 @@
+/*----------------------------------------------------------
+    Colour Settings
+----------------------------------------------------------*/
+
+$breakpoints-phone: 450px;
+$breakpoints-tablet: 768px;
+$breakpoints-desktop: 1280px;
+
+
+@mixin breakpoint($point) {
+    // Simple breakpoint creation. Set breakpoint variables here
+    @if $point == "phone" {
+        @media (max-width:$breakpoints-phone) { @content; }
+    } @else if $point == "phone-min" {
+        @media (min-width: $breakpoints-phone) { @content; }
+    } @else if $point == "tablet" {
+        @media (min-width: $breakpoints-tablet) { @content; }
+    } @else if $point == "desktop" {
+        @media (min-width: $breakpoints-desktop) { @content; }
+    } @else if $point == "portrait" OR "landscape" {
+        @media (orientation:$point) { @content; }
+    } @else if $point == round($point) {
+        @media (max-width: $point) { @content; }
+    }
+}

@@ -1,0 +1,322 @@
+/*----------------------------------------------------------
+    Layout Settings
+----------------------------------------------------------*/
+
+$layout-col-numbers: 12;
+$layout-gutter-default: 24px;
+$layout-ratio : 2/3;
+$layout-min-breakpoints: (
+	xs: 0,
+	sm: 60em * $layout-ratio,
+	md: 89em * $layout-ratio,
+	lg: 144em * $layout-ratio,
+	xl: 233em * $layout-ratio
+);
+
+
+/*----------------------------------------------------------
+    Whole Screen
+----------------------------------------------------------*/
+
+@mixin fullScreen($posType: fixed) {
+    position: $posType;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+}
+
+.fullscreen {
+    @include fullScreen();
+}
+
+/*----------------------------------------------------------
+    Absolute Centering
+----------------------------------------------------------*/
+
+@mixin center-abs($type: all) {
+	position: absolute;
+	@if $type==all {
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	} @else if $type==horiz {
+		left: 50%;
+		transform: translateX(-50%);
+	} @else if $type==vert {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+
+.center-abs {
+	@include center-abs();
+}
+
+.center-vert-abs {
+	@include center-abs(vert);
+}
+
+.center-horiz-abs {
+	@include center-abs(horiz);
+}
+
+/*----------------------------------------------------------
+    Flex Centering
+----------------------------------------------------------*/
+
+@mixin center-flex($type: all) {
+	@if $type==all {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	} @else if $type==horiz {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		align-content: center;
+	} @else if $type==vert {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		align-content: center;
+	}
+}
+
+.center-flex {
+	@include center-flex();
+}
+
+.center-vert-flex {
+	@include center-flex(vert);
+}
+
+.center-horiz-flex {
+	@include center-flex(horiz);
+}
+
+/*----------------------------------------------------------
+    Floating Grids
+----------------------------------------------------------*/
+
+// Setup grid system
+
+@mixin grid($col-number, $col-gutter) {
+
+	$total-col-count: $layout-col-numbers/$col-number;
+	// $col-gutter-width-offset: ($col-gutter * (($col-number * 2) - 2)) / $col-number;
+	@include gridParent($col-gutter)
+
+	& > * {
+		@include gridChild($col-number, $col-gutter);
+	}
+
+}
+
+@mixin gridParent($col-gutter: 0) {
+	overflow: hidden;
+	@if $col-gutter != 0 {
+		margin: 0 ($col-gutter *  -1);
+	}
+	@include clearfix();
+}
+
+@mixin gridChild($col-number, $col-gutter, $col-gutter-width-offset:0) {
+
+	box-sizing: border-box;
+	display: block;
+
+	$col-base-width: percentage( $col-number / $layout-col-numbers );
+	// offset is the amount to cut off the width. This is calculated based on there being a gutter on each side of the column elements.
+	// We calculate the total size of the gutters minus two of them (first and last) then divide that by the total column number to give
+	// us the total amound of offset the width by.
+	@if $col-gutter-width-offset == 0 {
+		// $col-gutter-width-offset: ($col-gutter * (($col-number * 2) - 1)) / $col-number;
+		// $col-gutter-width-offset: $col-gutter + ($col-gutter / ($layout-col-numbers - 2));
+		$col-gutter-width-offset: $col-gutter * 2;
+	}
+
+	@if $col-number < $layout-col-numbers {
+
+		float: left;
+		// width is based off the total width minus the gutter
+		width: calc( #{$col-base-width} - #{$col-gutter-width-offset} );
+		margin: 0 $col-gutter;
+
+		// fallbacks
+		.no-csscalc & {
+			float: left;
+			width: $col-base-width;
+			margin-left: 0;
+			margin-right: 0;
+			padding-left: $col-gutter;
+			padding-right: $col-gutter;
+		}
+
+	} @else {
+		&, .no-csscalc & {
+			float: none;
+			width: auto;
+			margin-right: $col-gutter;
+			margin-left: $col-gutter;
+		}
+	}
+
+}
+
+.grid__row {
+	@include gridParent($layout-gutter-default);
+}
+
+// generate classes for each screen size and col size
+@each $size, $width in $layout-min-breakpoints {
+	@media only screen and ( min-width: $width) {
+		@for $i from 1 through $layout-col-numbers {
+			.grid__col-#{$size}-#{$i} {
+				@include gridChild($i, $layout-gutter-default);
+			}
+		}
+	}
+}
+
+// do each col size so you can still just output colums
+@for $i from 1 through $layout-col-numbers {
+	.grid__col-#{$i} {
+		@include gridChild($i, $layout-gutter-default);
+	}
+}
+
+/*----------------------------------------------------------
+    Fluid Grids (Flex)
+----------------------------------------------------------*/
+
+// foundation grid takes care of most of our styles
+
+$flex-col-numbers: $layout-col-numbers;
+$flex-col-sizes: $layout-min-breakpoints;
+
+.flex-row {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-right: -.5rem;
+	margin-left: -.5rem;
+	.no-flexbox.no-flexboxlegacy & {
+		vertical-align: top;
+	}
+}
+
+.flex-row.reverse {
+	flex-direction: row-reverse;
+	flex-wrap: row-reverse;
+}
+
+.flex-col.reverse {
+	flex-direction: column-reverse;
+	flex-wrap: column-reverse;
+}
+
+@each $size, $width in $flex-col-sizes {
+
+	$flex-col-selector: null;
+
+	@media only screen and ( min-width: $width) {
+		@for $i from 1 through $flex-col-numbers {
+
+			$flex-col-selector: append($flex-col-selector, unquote('.flex-col-#{$size}-#{$i}'), comma);
+			$width-comp: percentage((1 / $flex-col-numbers) * $i);
+
+			.flex-col-#{$size}-#{$i} {
+				flex-basis: $width-comp;
+				max-width: $width-comp;
+				.no-flexbox.no-flexboxlegacy & {
+					width: $width-comp;
+				}
+			}
+
+			.flex-col-#{$size}-offset-#{$i} {
+				margin-left: $width-comp;
+			}
+
+		}
+
+		.start-#{$size} {
+			justify-content: flex-start;
+			text-align: start;
+		}
+
+		.center-#{$size} {
+			justify-content: center;
+			text-align: center;
+		}
+
+		.end-#{$size} {
+			justify-content: flex-end;
+			text-align: end;
+		}
+
+		.top-#{$size} {
+			align-items: flex-start;
+		}
+
+		.middle-#{$size} {
+			align-items: center;
+		}
+
+		.middle-#{$size} {
+			align-items: flex-end;
+		}
+
+		.around-#{$size} {
+			justify-content: space-around;
+		}
+
+		.between-#{$size} {
+			justify-content: space-between;
+		}
+
+		.first-#{$size} {
+			order: -1;
+		}
+
+		.last-#{$size} {
+			order: 1;
+		}
+
+		.flex-col-#{$size}, #{$flex-col-selector} {
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			flex-grow: 0;
+			flex-shrink: 0;
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+			&.collapse {
+				padding: 0;
+			}
+			.no-flexbox.no-flexboxlegacy & {
+				display: table-cell;
+				vertical-align: top;
+			}
+		}
+
+		.flex-col-#{$size} {
+			flex-grow: 1;
+			flex-basis: 0;
+			max-width: 100%;
+		}
+
+	}
+
+}
+
+
+/*----------------------------------------------------------
+    Boxes
+----------------------------------------------------------*/
+
+@mixin box($width, $height) {
+	width: $width;
+	height: $height;
+}
