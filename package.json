@@ -38,6 +38,7 @@
     "kefir": "^3.3.0",
     "lodash": "^4.14.2",
     "makerule": "^1.0.3",
+    "moment": "^2.14.1",
     "mongoose": "^4.5.8",
     "mori": "^0.3.2",
     "passport": "^0.3.2",
