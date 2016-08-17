@@ -9,9 +9,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const bookingsSchema = new Schema({
-  text: { type: String, required: true },
-  createdAt: { type: Date, 'default': Date.now },
-  updatedAt: { type: Date, 'default': Date.now }
+	text: { type: String, required: true },
+	createdAt: { type: Date, 'default': Date.now },
+	updatedAt: { type: Date, 'default': Date.now },
 });
 
 const bookingsModel = mongoose.model('bookings', bookingsSchema);

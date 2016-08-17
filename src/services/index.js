@@ -1,15 +1,22 @@
 'use strict';
+
+const quarry = require('./quarry');
+
 const bookings = require('./bookings');
 const authentication = require('./authentication');
 const user = require('./user');
 const mongoose = require('mongoose');
+
 module.exports = function() {
-  const app = this;
+    const app = this;
 
-  mongoose.connect(app.get('mongodb'));
-  mongoose.Promise = global.Promise;
+    mongoose.connect(app.get('mongodb'));
 
-  app.configure(authentication);
-  app.configure(user);
-  app.configure(bookings);
+    mongoose.Promise = global.Promise;
+
+    app.configure(authentication);
+    app.configure(user);
+    app.configure(bookings);
+
+    app.configure(quarry);
 };
