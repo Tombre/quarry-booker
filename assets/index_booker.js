@@ -1,4 +1,6 @@
 import 'blaze/scss/blaze.scss';
+import 'styles/main.scss';
+
 import 'helper/setup';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -6,17 +8,17 @@ import { Router, Route, browserHistory, IndexRoute, Redirect } from 'react-route
 
 import { createStore, Provider } from 'store';
 
-import { App as App } from './app';
+import { App as App } from 'app/app_booker';
+import BOOKING from 'app/bookings/booking_reducer';
 
 import cookies from 'js-cookie';
 import request from 'superagent';
-
 
 /*----------------------------------------------------------
 Store
 ----------------------------------------------------------*/
 
-const store = createStore();
+const store = createStore({ BOOKING });
 
 /*----------------------------------------------------------
 Root Component

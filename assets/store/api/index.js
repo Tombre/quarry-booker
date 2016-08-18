@@ -12,6 +12,9 @@ import * as errorTypes from 'store/error/error_types';
 	Settings
 ----------------------------------------------------------*/
 
+let { hostname, protocol, port } = window.location;
+const host = protocol + '//' + hostname + (port.length ? ':' + port : '');
+
 /*----------------------------------------------------------
 	Actions
 ----------------------------------------------------------*/

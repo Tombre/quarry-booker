@@ -31,13 +31,19 @@ export function getState(store, selector) {
 // **********
 export function createReducer(actionTypes = [], reducer, initialState) {
 
+	if (_.isFunction(actionTypes)) {
+		initialState = reducer;
+		reducer = actionTypes;
+		actionTypes = null;
+	}
+
 	return function(state, action) {
 
 		// if the state doesnt exist, then evaluate the initialState argument as the state
 		state = mori.isCollection(state) ? state : ( _.isFunction(initialState) ? initialState() : initialState);
 
 		// dont run reducer on action types it doesn't own
-		if (actionTypes.indexOf(action.type) < 0 ) {
+		if (actionTypes && actionTypes.indexOf(action.type) < 0 ) {
 			return state;
 		}
 

@@ -1,0 +1,22 @@
+
+.bookings {
+	height: 100vh;
+	display: flex;
+	align-content: center;
+	align-items: center;
+}
+
+.bookings-container {
+	min-width: 400px;
+}
+
+.bookings__panel {
+	padding: 30px 0;
+	& + & {
+		border-top: 2px solid lighten(grey, 25%);
+	}
+}
+
+.bookings__panel--disabled {
+	opacity: 0.5;
+}

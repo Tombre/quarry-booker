@@ -9,9 +9,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const quarrySchema = new Schema({
-  text: { type: String, required: true },
-  createdAt: { type: Date, 'default': Date.now },
-  updatedAt: { type: Date, 'default': Date.now }
+	name: { type: String, required: true, unique: true },
+	maxPeople: { type: Number, required: true },
+	createdAt: { type: Date, 'default': Date.now },
+	updatedAt: { type: Date, 'default': Date.now }
 });
 
 const quarryModel = mongoose.model('quarry', quarrySchema);

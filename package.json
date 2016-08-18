@@ -41,6 +41,7 @@
     "moment": "^2.14.1",
     "mongoose": "^4.5.8",
     "mori": "^0.3.2",
+    "nunjucks": "^2.4.2",
     "passport": "^0.3.2",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",

@@ -10,6 +10,13 @@ const minuteRule = timeRule.lessThan(60);
 
 export default React.createClass({
 
+	propTypes: {
+		name: React.PropTypes.string,
+		label: React.PropTypes.string,
+		value: React.PropTypes.string,
+		showTimeOfDay: React.PropTypes.bool
+	},
+
 	getInitialState: function() {
 		return {
 			hoursValue: '' ,
@@ -31,12 +38,6 @@ export default React.createClass({
 	handleTimeChange: function(e) {
 		let value = e.target.value;
 		this.setState({ timeValue: value });	
-	},
-
-	propTypes: {
-		name: React.PropTypes.string,
-		label: React.PropTypes.string,
-		value: React.PropTypes.string,
 	},
 
 	render: function() {
@@ -66,12 +67,16 @@ export default React.createClass({
 						}	
 					})()}
 				</div>
-				<div className="o-grid__cell">
-					<select className="c-choice c-choice--small" value={this.state.timeValue} onChange={ this.handleTimeChange }>
-						<option>AM</option>
-						<option>PM</option>
-					</select>
-				</div>
+				{(() => {
+					if (this.props.showTimeOfDay) {
+						return <div className="o-grid__cell">
+							<select className="c-choice c-choice--small" value={this.state.timeValue} onChange={ this.handleTimeChange }>
+								<option>AM</option>
+								<option>PM</option>
+							</select>
+						</div>
+					}
+				})()}
 			</div>
 		</div>
 	}

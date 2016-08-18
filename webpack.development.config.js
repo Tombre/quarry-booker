@@ -15,9 +15,10 @@ module.exports = {
   // // Create Sourcemaps for the bundle
   devtool: 'cheap-module-source-map',
 
-	entry: [
-		'index',
-	],
+	entry: {
+		'booker': 'index_booker',
+		'admin': 'index_admin',
+	},
 
 	output: {
 		path: path.join(__dirname, 'public'),

@@ -1,0 +1,33 @@
+
+.time-select {
+	text-align: center;
+	label {
+		text-align: left;
+	}
+}
+
+.time-select__cards {
+	// width: 20%;
+	display: inline-block;
+	margin-left: 0.5em;
+	margin-right: 0.5em; 
+	width: 21%;
+
+	& + & {
+		margin-left: 0.5em;
+		margin-right: 0.5em; 
+	}
+
+	&:hover {
+		background-color: $colour-lightGrey;
+	}
+
+}
+
+.time-select__cards--selected {
+	background-color: $colour-blue;
+	color: white;
+	&:hover {
+		background-color: darken($colour-blue, 15%);
+	}
+}
