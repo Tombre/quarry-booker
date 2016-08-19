@@ -4,8 +4,7 @@ module.exports = function() {
 	
 	const app = this;
 
-	app.use('/', function(req, res, next) {
-		// res.send('Welcome');
+	app.get('/', function(req, res, next) {
 		res.render('booker.html');
 	});
 

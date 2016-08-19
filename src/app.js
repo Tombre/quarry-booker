@@ -17,7 +17,7 @@ const services = require('./services');
 
 const app = feathers();
 
-nunjucks.configure('views', {
+nunjucks.configure(path.join(__dirname, 'views'), {
     autoescape: true,
     express: app
 });
