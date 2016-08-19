@@ -1,0 +1,20 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"file_exclude_patterns":
+			[
+				".vimrc",
+				"**.log",
+				".python-deps",
+				".installed-node-modules",
+				".sailsrc"
+			],
+			"folder_exclude_patterns":
+			[
+				"node_modules"
+			]
+		}
+	]
+}
