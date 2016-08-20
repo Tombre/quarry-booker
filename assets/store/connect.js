@@ -17,6 +17,12 @@ export default function connect(getSubscription, mapDispatchToProps, mergeProps)
 
 			contextTypes: { store: storeShape },
 
+			getInitialState() {
+				return {
+					subscriptionState: {}
+				}
+			},
+
 			trySubscribe() {
 				if ( !this.unsubscribe && getSubscription) {
 					let handler = this.handleChange;
@@ -66,13 +72,9 @@ export default function connect(getSubscription, mapDispatchToProps, mergeProps)
 
 				// if the state and cached states are not the same, then set the new state
 				if (!this.cache || !mori.equals(state, this.cache)) {
-
 					this.cache = state;
-
 					let rawState = mori.toJs(state);
-					rawState = _.isArray(rawState) ? { results: rawState } : rawState;
-
-					this.setState(rawState);
+					this.setState({ subscriptionState: rawState });
 				}
 
 			},
@@ -92,9 +94,9 @@ export default function connect(getSubscription, mapDispatchToProps, mergeProps)
 				}
 
 				if (_.isFunction(mergeProps)) {
-					props = mergeProps(this.state, this.props, dispatchProps);
+					props = mergeProps(this.state.subscriptionState, this.props, dispatchProps);
 				} else {
-					props = _.assign({}, this.props, this.state, dispatchProps);
+					props = _.assign({}, this.props, this.state.subscriptionState, dispatchProps);
 				}
 
 				return createElement(WrappedComponent, props);

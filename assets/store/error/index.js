@@ -76,7 +76,7 @@ export const reducer = createReducer([ERROR_REMOVE, ERROR_CREATE], function(stat
 	Middleware
 ----------------------------------------------------------*/
 
-// This error middleware will return the payload of the error to the dispatch function. This is useful incase 
+// This error middleware will return the payload of the error to the dispatch function. This is useful incase you want to track the error through the store
 export const middleware = store => next => action => {
 	if (!action.type === ERROR_CREATE) return next(action);
 	// let action alter store then return the error payload

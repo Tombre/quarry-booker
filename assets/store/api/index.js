@@ -9,34 +9,56 @@ import { createError } from 'store/error';
 import * as errorTypes from 'store/error/error_types';
 
 /*----------------------------------------------------------
-	Settings
-----------------------------------------------------------*/
-
-let { hostname, protocol, port } = window.location;
-const host = protocol + '//' + hostname + (port.length ? ':' + port : '');
-
-/*----------------------------------------------------------
 	Actions
 ----------------------------------------------------------*/
 
-// Produce an action which will make an API request. This action will be picked up by middleware which will return a promise to
-// to the dispatch method.
-const API_CALL = 'API_CALL'; 
+// Produce an action which will make an API request.
 export function callAPI(params) {
+	return function(dispatch, getState) {
 
-	// apply defaults to the params
-	params = _.assign({
-		url : '', // the url of the request
-		data : {}, // some data to pass
-		query : {}, // a query string/object
-		headers: {} // the headers to include in the request
-	}, params);
+		let url, deferred, makeRequestCall;
 
-	return {
-		type : API_CALL,
-		payload : params
+		params = _.assign({
+			url : '', // the url of the request
+			data : {}, // some data to pass
+			query : {}, // a query string/object
+			headers: {} // the headers to include in the request
+		}, params);
+
+		url = params.url;
+
+		if (params.method !== 'GET') {
+			params.headers["X-CSRFToken"] = cookies.get('csrftoken');
+		}
+
+		// dispatch action to tell the state that the api request is running
+		dispatch(runningAPIRequest(params));
+
+		// make the API call
+		makeRequestCall = function(resolve, reject) {
+
+			let req = request(params.method, url).set(params.headers).type('json');
+
+			if (params.method === 'GET') {
+				req = req.query(params.query)
+			} else {
+				req = req.set('Content-Type', (params.contentType || 'application/json; charset=utf-8')).send(params.data);
+			}
+
+			return req.end(function(error, response){
+					dispatch(completeAPIRequest(response, params));
+					if (!_.isNull(error)) {
+						// return the error generated from the dispatch call
+						error = dispatch(throwAPIRequestError(error, response, params));
+						return reject(error);
+					}
+					return resolve(response);
+				 });
+		};
+
+		return new Promise(makeRequestCall);
+
 	}
-
 }
 
 // Alter the state to show that an API request is being made
@@ -67,12 +89,12 @@ function throwAPIRequestError(error, response, params) {
 	type = type || errorTypes.ERROR_API_UNKOWN;
 
 	let errorParams = {
-		response: error.response || {},
+		response: error.response,
 		status: error.status,
 		request: params
 	};
 
-	let msg = `API error: cannot ${params.method} ${params.url}${params.query ? ':' + JSON.stringify(params.query) : null} (${errorParams.response.statusCode}) ${errorParams.response.statusText}`;
+	let msg = `API error: cannot ${params.method} ${params.url}${params.query ? ':' + JSON.stringify(params.query) : null} (${error.response.statusCode}) ${error.response.statusText}`;
 	
 	return createError(type, errorParams, msg);
 }
@@ -105,56 +127,6 @@ export const reducer = createReducer([API_REQUEST, API_REQUEST_COMPLETE], functi
 	}
 }, createInitialState);
 
-
-/*----------------------------------------------------------
-	Middleware
-----------------------------------------------------------*/
-
-// If the action is an api call, then it is processed via this middleware. This returns a kefir stream to the dispatch method which will complete with the API call.
-// Success and error results are passed onto the next middleware chain. This will swallow the initial call request.
-export const middleware = store => next => action => {
-
-	if (action.type !== API_CALL) {
-		return next(action);
-	}
-
-	let params, url, deferred, makeRequestCall;
-
-	params = action.payload;
-	url = params.url;
-
-	// if (params.method !== 'GET') {
-	// 	params.headers["X-CSRFToken"] = cookies.get('csrftoken');
-	// }
-
-	// dispatch action to tell the state that the api request is running
-	store.dispatch(runningAPIRequest(params));
-
-	// make the API call
-	makeRequestCall = function(resolve, reject) {
-
-		let req = request(params.method, url).set(params.headers).type('json');
-
-		if (params.method === 'GET') {
-			req = req.query(params.query)
-		} else {
-			req = req.set('Content-Type', (params.contentType || 'application/json; charset=utf-8')).send(params.data);
-		}
-
-		return req.end(function(error, response){
-				store.dispatch(completeAPIRequest(response, params));
-				if (!_.isNull(error)) {
-					// return the error generated from the dispatch call
-					error = store.dispatch(throwAPIRequestError(error, response, params));
-					return reject(error);
-				}
-				return resolve(response);
-			 });
-	};
-
-	return new Promise(makeRequestCall);
-
-};
 
 /*----------------------------------------------------------
 	Selectors

@@ -46,11 +46,12 @@ export function createReducer(actionTypes = [], reducer, initialState) {
 		if (actionTypes && actionTypes.indexOf(action.type) < 0 ) {
 			return state;
 		}
-
+		
 		return reducer(state, action);
 	}
 
 }
+
 
 
 /*----------------------------------------------------------

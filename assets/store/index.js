@@ -8,8 +8,8 @@ import Connect from './connect';
 
 // modules
 
-import { reducer as API, middleware as API_Middleware } from 'store/api';
-import { reducer as DATA, fetchDataMiddleware, saveChangesMiddleware } from 'store/data';
+import { reducer as API } from 'store/api';
+import { reducer as DATA } from 'store/data';
 import { reducer as ERROR, middleware as errrorMiddleware } from 'store/error';
 import { reducer as SESSION } from 'store/session';
 
@@ -21,7 +21,7 @@ function createStore(reducers = {}, middleware = []) {
 
 	// add default middleware and reducers
 	reducers = _.assign({ API, DATA, SESSION, ERROR }, reducers); // assign also works to create a new object
-	middleware = middleware.concat([thunkMiddleware, loggingMiddleware, fetchDataMiddleware, saveChangesMiddleware, API_Middleware, errrorMiddleware]);
+	middleware = middleware.concat([thunkMiddleware, loggingMiddleware, errrorMiddleware]);
 
 	// store is the redux instance with middleware and reducers applied
 	const store = makeStore(
