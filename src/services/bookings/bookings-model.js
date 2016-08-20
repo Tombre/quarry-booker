@@ -6,7 +6,7 @@
 // for more of what you can do here.
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Schema = require('../../lib/schema');
 
 const bookingsSchema = new Schema({
 	createdAt: { type: Date, 'default': Date.now },

@@ -6,7 +6,7 @@
 // for more of what you can do here.
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Schema = require('../../lib/schema');
 
 const quarrySchema = new Schema({
 	name: { type: String, required: true, unique: true },

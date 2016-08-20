@@ -28,7 +28,6 @@ function moriToJs(record) {
 }
 
 function dispatchWithParams(dispatch, action, params) {
-
 	return dispatch(callAPI(params))
 			.then(response => {
 				
@@ -37,7 +36,7 @@ function dispatchWithParams(dispatch, action, params) {
 				dispatch(clearQueue(action));
 
 				if (params.method === 'GET'){
-					let models = body.id ? [body] : body.results;
+					let models = body.id ? [body] : body.data;
 					dispatch(setResponse(action.payload.collectionName, models));
 				} else if (params.method === 'DELETE') {
 					dispatch(clearRecord(action.payload.collectionName, body.id))
@@ -47,7 +46,7 @@ function dispatchWithParams(dispatch, action, params) {
 
 				// sometimes the body of the request is a container. If it is, we have to format it so this promise returns the actual data.
 				if (body.id || _.isArray(body)) return body;
-				if (body.results) return body.results;
+				if (body.data) return body.data;
 
 			}, error => {
 				dispatch(clearQueue(action));

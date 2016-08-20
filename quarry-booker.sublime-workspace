@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"cons",
+				"const"
+			],
+			[
 				"pro",
 				"protocol"
 			],
@@ -82,10 +86,6 @@
 			[
 				"ques",
 				"questionResponse"
-			],
-			[
-				"cons",
-				"console"
 			],
 			[
 				"marg",
@@ -519,14 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "src/services/quarry/hooks/index.js",
-			"settings":
-			{
-				"buffer_size": 533,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -735,18 +727,18 @@
 	"expanded_folders":
 	[
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/components/inputs",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/styles/components",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/styles/config",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/styles/layouts",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/bin",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/quarry",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/quarry/hooks"
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets",
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/store",
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/store/data",
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services"
 	],
 	"file_history":
 	[
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/store/data/index.js",
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/bookings/bookings-model.js",
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/quarry/quarry-model.js",
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/user/user-model.js",
+		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/lib/schema.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/quarry/index.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/booker/index.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/admin/index.js",
@@ -768,10 +760,7 @@
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/index.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/index_booker.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/assets/index_dashboard.js",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/user/user-model.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/quarry/hooks/index.js",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/quarry/quarry-model.js",
-		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/bookings/bookings-model.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/bookings/hooks/index.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/services/user/hooks/index.js",
 		"/Users/thomasleenders/Desktop/working_copies/quarry-booker/src/hooks/index.js",
@@ -872,9 +861,7 @@
 		"/Users/thomasleenders/Desktop/working_copies/culturecounts/culturecounts-ui/assets/apps/surveyBuilder/design/sidebar_view.js",
 		"/Users/thomasleenders/Desktop/working_copies/culturecounts/culturecounts-ui/assets/apps/surveyBuilder/design/configurations/freeText_view.js",
 		"/Users/thomasleenders/Desktop/working_copies/culturecounts/culturecounts-ui/assets/apps/surveyBuilder/config/configure_view.js",
-		"/Users/thomasleenders/Desktop/working_copies/culturecounts/culturecounts-ui/assets/entities/survey/survey_model.js",
-		"/Users/thomasleenders/Desktop/working_copies/culturecounts/culturecounts-ui/assets/apps/surveyPage/question/question_ItemView.js",
-		"/Users/thomasleenders/Desktop/working_copies/culturecounts/culturecounts-ui/assets/templates/dashboard/surveyBuilder/configure/advancedOptions/displayOptions.html"
+		"/Users/thomasleenders/Desktop/working_copies/culturecounts/culturecounts-ui/assets/entities/survey/survey_model.js"
 	],
 	"find":
 	{
@@ -1219,38 +1206,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "src/services/quarry/hooks/index.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 533,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								289,
-								289
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],

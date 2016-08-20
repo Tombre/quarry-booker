@@ -8,8 +8,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const userRoles = require('./user-roles');
-
-const Schema = mongoose.Schema;
+const Schema = require('../../lib/schema');
 
 const userSchema = new Schema({
 	email: {
